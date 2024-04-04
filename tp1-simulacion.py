@@ -111,6 +111,5 @@ plt.xlabel('Número de corridas')
 plt.ylabel('Frec. relativa obtenida')
 plt.title("Frecuencia Relativa vs. Frecuencia esperada")
 plt.legend()
-plt.show()
 plt.savefig('FrecuenciaRelativa.png')
 
