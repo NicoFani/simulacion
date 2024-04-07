@@ -11,49 +11,50 @@ rango = int(sys.argv[2])
 corridas = int(sys.argv[4])
 nro = int(sys.argv[6])
 
-lista_corridas = []
+## Diccionarios para guardar los valores de cada corrida
 lista_frec_relativa_corridas = {}
+lista_promedio_corridas = {}
+lista_desvio_corridas = {}
+lista_varianza_corridas = {}
 
 for i in range(corridas):
 
+    ## SIMULACION de Valores
     valores = [random.randint(0, 36) for _ in range(rango)]
-    lista_corridas.append(valores)
 
-    print(valores)
-
-    frec_relativa = valores.count(nro) / rango
-    lista_frec_relativa_corridas[i]=frec_relativa
+    ## CALCULO de Frecuencia Relativa para histograma
     frec_relativa_por_nro = {}
+    for j in range(37):
+        frec_relativa_por_nro[j] = valores.count(j) / rango
 
-    for k in range(38):
-        frec_relativa_por_nro[k]=valores.count(k)/rango
 
-    print()
-    print("Frecuencia relativa", frec_relativa)
-    print("Frecuencia relativa esperada", 1/37)
-
-    ## GRAFICAS
+    ## CALCULO de Frecuencia Relativa, Promedio, Desvio y Varianza
     lista_frec_relativa_nro = []
     for j in range(1, rango+1):
         lista_frec_relativa_nro.append(valores[:j].count(nro)/j)
+    lista_frec_relativa_corridas[i] = lista_frec_relativa_nro
     lista_esperada_relativa = [1/37 for j in range(rango)]
 
     lista_promedio = []
     for j in range(1, rango+1):
         lista_promedio.append(sum(valores[:j])/j)
+    lista_promedio_corridas[i] = lista_promedio
     lista_esperada_promedio = [38/2 for j in range(rango)]
 
     lista_desvio = []
     for j in range(1, rango+1):
         lista_desvio.append(np.std(valores[:j]))
+    lista_desvio_corridas[i] = lista_desvio
     lista_esperada_desvio = [38/np.sqrt(12) for j in range(rango)]
 
     lista_varianza = []
     for j in range(1, rango+1):
         lista_varianza.append(np.var(valores[:j]))
+    lista_varianza_corridas[i] = lista_varianza
     lista_esperada_varianza = [38**2/12 for j in range(rango)]
 
-   
+
+    ## GRAFICAS 
     plt.figure(figsize=(18, 18))
 
     plt.subplot(3, 2, 1)
@@ -100,16 +101,44 @@ for i in range(corridas):
     plt.legend()
     plt.savefig('Histograma%s.png'% (i))
 
-
-print(lista_corridas)
-esperada_corrida = [1/37 for i in range(corridas)]
+## GRAFICAS DE TODAS LAS CORRIDAS
 
 plt.figure(figsize=(15, 6))
-plt.bar(lista_frec_relativa_corridas.keys(), lista_frec_relativa_corridas.values())
+for i in range(corridas):    
+    plt.plot(range(1, rango+1), lista_frec_relativa_corridas[i], label=f'Corrida {i+1}')
 plt.axhline(1/37, color='red', linestyle='--', linewidth=2, label='Frec. Relativa Esperado')
-plt.xlabel('Número de corridas')
+plt.xlabel('Número de tiradas')
 plt.ylabel('Frec. relativa obtenida')
 plt.title("Frecuencia Relativa vs. Frecuencia esperada")
 plt.legend()
 plt.savefig('FrecuenciaRelativa.png')
 
+plt.figure(figsize=(15, 6))
+for i in range(corridas):    
+    plt.plot(range(1, rango+1), lista_promedio_corridas[i], label=f'Corrida {i+1}')
+plt.axhline(38/2, color='red', linestyle='--', linewidth=2, label='Promedio Esperado')
+plt.xlabel('Número de tiradas')
+plt.ylabel('Promedio obtenido')
+plt.title("Promedio obtenido vs. Promedio esperado")
+plt.legend()
+plt.savefig('Promedio.png')
+
+plt.figure(figsize=(15, 6))
+for i in range(corridas):    
+    plt.plot(range(1, rango+1), lista_desvio_corridas[i], label=f'Corrida {i+1}')
+plt.axhline(38/np.sqrt(12), color='red', linestyle='--', linewidth=2, label='Desvio Esperado')
+plt.xlabel('Número de tiradas')
+plt.ylabel('Desvio obtenido')
+plt.title("Desvio obtenido vs. Desvio esperado")
+plt.legend()
+plt.savefig("Desvio.png")
+
+plt.figure(figsize=(15, 6))
+for i in range(corridas):    
+    plt.plot(range(1, rango+1), lista_varianza_corridas[i], label=f'Corrida {i+1}')
+plt.axhline(38**2/12, color='red', linestyle='--', linewidth=2, label='Frec. Relativa Esperado')
+plt.xlabel('Número de tiradas')
+plt.ylabel('Varianza obtenida')
+plt.title("Varianza obtenida vs. Varianza esperada")
+plt.legend()
+plt.savefig('Varianza.png')
