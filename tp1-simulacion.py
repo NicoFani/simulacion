@@ -39,25 +39,25 @@ for i in range(corridas):
     for j in range(1, rango+1):
         lista_promedio.append(sum(valores[:j])/j)
     lista_promedio_corridas[i] = lista_promedio
-    lista_esperada_promedio = [38/2 for j in range(rango)]
+    lista_esperada_promedio = [1/37*666 for j in range(rango)]
 
     lista_desvio = []
     for j in range(1, rango+1):
         lista_desvio.append(np.std(valores[:j]))
     lista_desvio_corridas[i] = lista_desvio
-    lista_esperada_desvio = [38/np.sqrt(12) for j in range(rango)]
+    lista_esperada_desvio = [37/np.sqrt(12) for j in range(rango)]
 
     lista_varianza = []
     for j in range(1, rango+1):
         lista_varianza.append(np.var(valores[:j]))
     lista_varianza_corridas[i] = lista_varianza
-    lista_esperada_varianza = [38**2/12 for j in range(rango)]
+    lista_esperada_varianza = [37**2/12 for j in range(rango)]
 
 
     ## GRAFICAS 
-    plt.figure(figsize=(18, 18))
+    plt.figure(figsize=(12, 10))
 
-    plt.subplot(3, 2, 1)
+    plt.subplot(2, 2, 1)
     plt.plot(lista_frec_relativa_nro, label='Frecuencia Relativa de Nro', color='blue')
     plt.xlabel('Número de tirada')
     plt.ylabel('Frec. relativa obtenida')
@@ -65,7 +65,7 @@ for i in range(corridas):
     plt.title("Frecuencia Relativa vs. Frecuencia esperada")
     plt.legend()
 
-    plt.subplot(3, 2, 2)
+    plt.subplot(2, 2, 2)
     plt.plot(lista_promedio, label='Promedio', color='blue')
     plt.xlabel('Número de tirada')
     plt.ylabel('Promedio Obtenido')
@@ -73,7 +73,7 @@ for i in range(corridas):
     plt.title("Promedio vs. Promedio esperado")
     plt.legend()
 
-    plt.subplot(3, 2, 3)
+    plt.subplot(2, 2, 3)
     plt.plot(lista_desvio, label='Desvio', color='blue')
     plt.xlabel('Número de tirada')
     plt.ylabel('Desvio Obtenido')
@@ -81,7 +81,7 @@ for i in range(corridas):
     plt.title("Desvio vs. Desvio esperado")
     plt.legend()
 
-    plt.subplot(3, 2, 4)
+    plt.subplot(2, 2, 4)
     plt.plot(lista_varianza, label='Varianza', color='blue')
     plt.xlabel('Número de tirada')
     plt.ylabel('Varianza Obtenida')
@@ -116,7 +116,7 @@ plt.savefig('FrecuenciaRelativa.png')
 plt.figure(figsize=(15, 6))
 for i in range(corridas):    
     plt.plot(range(1, rango+1), lista_promedio_corridas[i], label=f'Corrida {i+1}')
-plt.axhline(38/2, color='red', linestyle='--', linewidth=2, label='Promedio Esperado')
+plt.axhline(1/37*666, color='red', linestyle='--', linewidth=2, label='Promedio Esperado')
 plt.xlabel('Número de tiradas')
 plt.ylabel('Promedio obtenido')
 plt.title("Promedio obtenido vs. Promedio esperado")
@@ -126,7 +126,7 @@ plt.savefig('Promedio.png')
 plt.figure(figsize=(15, 6))
 for i in range(corridas):    
     plt.plot(range(1, rango+1), lista_desvio_corridas[i], label=f'Corrida {i+1}')
-plt.axhline(38/np.sqrt(12), color='red', linestyle='--', linewidth=2, label='Desvio Esperado')
+plt.axhline(37/np.sqrt(12), color='red', linestyle='--', linewidth=2, label='Desvio Esperado')
 plt.xlabel('Número de tiradas')
 plt.ylabel('Desvio obtenido')
 plt.title("Desvio obtenido vs. Desvio esperado")
@@ -136,7 +136,7 @@ plt.savefig("Desvio.png")
 plt.figure(figsize=(15, 6))
 for i in range(corridas):    
     plt.plot(range(1, rango+1), lista_varianza_corridas[i], label=f'Corrida {i+1}')
-plt.axhline(38**2/12, color='red', linestyle='--', linewidth=2, label='Frec. Relativa Esperado')
+plt.axhline(37**2/12, color='red', linestyle='--', linewidth=2, label='Frec. Relativa Esperado')
 plt.xlabel('Número de tiradas')
 plt.ylabel('Varianza obtenida')
 plt.title("Varianza obtenida vs. Varianza esperada")
