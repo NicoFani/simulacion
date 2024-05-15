@@ -1,6 +1,5 @@
 import random
 import sys
-import numpy as np
 import matplotlib.pyplot as plt
 
 if len(sys.argv) != 11 or sys.argv[1] != "-c" or sys.argv[3] != "-n" or sys.argv[5] != "-e" or sys.argv[7] != "-s" or sys.argv[9] != "-a":
@@ -22,7 +21,7 @@ tipo_capital = sys.argv[10]
 
 apuesta_inicial = 5
 cont_bancarrota = {}
-list_historial_capital = []
+list_historial_capital = {}
 
 
 def tirar_ruleta(apuesta:float, color:str):
@@ -41,8 +40,7 @@ def CalcularFrecRelativa(historial_resultados, tiradas):
 
 def crearGraficasTiradas(historial_capital, tiradas, i):
     # Grafica de Capital por corrida
-    plt.figure(figsize=(12, 10))
-    plt.subplot(2, 1, 1)
+    plt.figure(figsize=(12, 7))
     plt.plot(historial_capital, label='Capital', color='blue')
     plt.xlabel('Tiradas')
     plt.ylabel('Capital')
@@ -57,23 +55,37 @@ def crearGraficasTiradas(historial_capital, tiradas, i):
 
     #Grafica Frec.Relativa de obtener apuesta favorable segun n
     frec_relativa = CalcularFrecRelativa(historial_resultados, tiradas)
-    plt.figure(figsize=(12, 10))
-    plt.subplot(2, 1, 1)
+    plt.figure(figsize=(12, 7))
     plt.bar(frec_relativa.keys(), frec_relativa.values(), label='Frec.Relativa favorable', color='blue')
     plt.xlabel('Tiradas')
     plt.ylabel('Frec. Relativa')
     plt.title("Frec.Relativa favorable segun n")
     plt.savefig('Frec.Relativa%s.png'% (i))
 
-def crearGraficasCorrida(cont_bancarrota, corridas):
-    plt.figure(figsize=(12, 10))
+def crearGraficasCorrida(cont_bancarrota, corridas, list_historial_capital, tiradas):
+    plt.figure(figsize=(12, 7))
     plt.bar(cont_bancarrota.keys(), cont_bancarrota.values(), label='bancarrota', color='blue')
     plt.xlabel('Cantidad de corridas')
     plt.ylabel('Bancarrota')
     plt.axhline(contarBancarrotas(cont_bancarrota)/corridas, color='red', linestyle='--', linewidth=2, label='Promedio Bancarrota')
     plt.legend()
     plt.title("Bancarrota por Corrida")
-    plt.savefig('ContadorBancarrota%s.png'% (i))
+    plt.savefig('ContadorBancarrota.png')
+
+    plt.figure(figsize=(12, 10))
+    for i in range(corridas):
+        plt.plot( list_historial_capital[i], label=f'Corrida {i+1}')
+    if(tipo_capital == 'f'):
+        plt.plot( [100 for i in range(tiradas)], label='Tiradas', color='black')
+        plt.plot( [0 for i in range(tiradas)], label='Bancarrota', color='black', linestyle='--')
+    else:
+        plt.plot( [0 for i in range(tiradas)], label='Cero', color='black')
+    plt.xlabel('Número de tiradas')
+    plt.ylabel('Capital')
+    plt.title("Capital por Corrida")
+    plt.legend()
+    plt.savefig('CapitalComparado.png' )
+
 
 
 def contarBancarrotas(cont_bancarrota):
@@ -84,8 +96,6 @@ for i in range(corridas):
         capital = 100
     else:
         capital = 0
-
-    list_resultados = [] 
 
     historial_resultados = []
     fib_anterior = 3
@@ -182,9 +192,10 @@ for i in range(corridas):
                 historial_resultados.append(0)
             historial_capital.append(capital)
 
+    list_historial_capital[i] = historial_capital
     crearGraficasTiradas(historial_capital, tiradas, i)
 
-crearGraficasCorrida(cont_bancarrota, corridas)
+crearGraficasCorrida(cont_bancarrota, corridas, list_historial_capital, tiradas)
 
 
 
