@@ -1,6 +1,8 @@
-# Simulación
+# Simulación - 2024
 
-### Trabajos de la materia Simulación realizados por:
+### Este repositorio contiene los trabajos prácticos de la materia Simulación de cuarto año de la carrera Ingeniería en Sistemas de Información en la UTN FRRO.
+
+### Los trabajos fueron realizados por:
 - Botali, Santiago
 - Fani, Nicolás
 - Mongelos, Manuel
