@@ -35,7 +35,8 @@ def CalcularFrecRelativa(historial_resultados, tiradas):
     frec_relativa_por_tirada = {}
     for j in range(1, tiradas + 1):
         ganadas = historial_resultados[:j].count(1)
-        frec_relativa_por_tirada[j] = ganadas / j 
+        print(ganadas)
+        frec_relativa_por_tirada[j] = ganadas / tiradas
     return frec_relativa_por_tirada
 
 def crearGraficasTiradas(historial_capital, tiradas, i):
@@ -55,6 +56,7 @@ def crearGraficasTiradas(historial_capital, tiradas, i):
 
     #Grafica Frec.Relativa de obtener apuesta favorable segun n
     frec_relativa = CalcularFrecRelativa(historial_resultados, tiradas)
+    print(frec_relativa)
     plt.figure(figsize=(12, 7))
     plt.bar(frec_relativa.keys(), frec_relativa.values(), label='Frec.Relativa favorable', color='blue')
     plt.xlabel('Tiradas')
